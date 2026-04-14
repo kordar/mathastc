@@ -2,7 +2,7 @@ package mathastc
 
 import (
 	"context"
-	"fmt"
+	"github.com/spf13/cast"
 	"log"
 )
 
@@ -44,30 +44,8 @@ func Calculate(expr ExprNode, ctx context.Context) float64 {
 			return Calculate(expression, ctx)
 		case ExprNode:
 			return Calculate(t, ctx)
-		case int:
-			return float64(t)
-		case int8:
-			return float64(t)
-		case int64:
-			return float64(t)
-		case int16:
-			return float64(t)
-		case int32:
-			return float64(t)
-		case uint:
-			return float64(t)
-		case uint8:
-			return float64(t)
-		case uint16:
-			return float64(t)
-		case uint32:
-			return float64(t)
-		case uint64:
-			return float64(t)
-		case float32:
-			return float64(t)
-		case float64:
-			return t
+		case int, int8, int64, int16, int32, uint, uint8, uint16, uint32, uint64, float32, float64:
+			return cast.ToFloat64(t)
 		default:
 			log.Panicln("unknown expr type")
 		}
@@ -122,10 +100,8 @@ func ToExprStr(expr ExprNode, ctx context.Context) string {
 			return ToExprStr(expression, ctx)
 		case ExprNode:
 			return ToExprStr(t, ctx)
-		case int, int8, int64, int16, int32, uint, uint8, uint16, uint32, uint64:
-			return fmt.Sprintf("%d", t)
-		case float32, float64:
-			return fmt.Sprintf("%f", t)
+		case int, int8, int64, int16, int32, uint, uint8, uint16, uint32, uint64, float32, float64:
+			return cast.ToString(t)
 		default:
 			return node.Val
 		}
